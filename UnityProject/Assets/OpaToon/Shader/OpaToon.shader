@@ -40,7 +40,7 @@ Shader "Opabinia/OpaToon"
 
             struct Varyings
             {
-                float4 positionHCS  : SV_POSITION;
+                float4 positionCS  : SV_POSITION;
                 float3 normalWS     : NORMAL;
                 float2 texcoord0    : TEXCOORD0;
             };
@@ -48,7 +48,8 @@ Shader "Opabinia/OpaToon"
             Varyings vert(Attributes IN)
             {
                 Varyings OUT;
-                OUT.positionHCS = TransformObjectToHClip(IN.positionOS.xyz);
+                VertexPositionInputs positionInputs = GetVertexPositionInputs(IN.positionOS);
+                OUT.positionCS = positionInputs.positionCS;
                 VertexNormalInputs normalInputs = GetVertexNormalInputs(IN.normal, IN.tangent);
                 OUT.normalWS = normalInputs.normalWS;
                 OUT.texcoord0 = TRANSFORM_TEX(IN.texcoord0, _MainTex);
