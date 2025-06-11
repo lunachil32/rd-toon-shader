@@ -10,6 +10,9 @@ Shader "Opabinia/OpaToon"
 
         Pass
         {
+            Name "Forward"
+            Tags { "LightMode"="UniversalForward" }
+            
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
