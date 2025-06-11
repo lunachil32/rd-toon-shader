@@ -22,6 +22,7 @@ Shader "Opabinia/OpaToon"
             #pragma shader_feature_local _ __DEBUG_NORMAL_ON
             
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
             TEXTURE2D(_MainTex);
             SAMPLER(sampler_MainTex);
@@ -59,6 +60,11 @@ Shader "Opabinia/OpaToon"
             half4 frag(Varyings IN) : SV_Target
             {
                 half4 mainTexColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.texcoord0);
+
+                Light mainLight = GetMainLight();
+                float diffuse = dot(IN.normalWS, mainLight.direction);
+                float halfLambert = diffuse * 0.5 + 0.5;
+                mainTexColor *= halfLambert;
 
                 #ifdef __DEBUG_NORMAL_ON
                 return half4(IN.normalWS,1.0f);
