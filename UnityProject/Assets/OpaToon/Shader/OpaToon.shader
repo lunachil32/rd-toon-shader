@@ -4,6 +4,7 @@ Shader "Opabinia/OpaToon"
     {
         _MainTex ("Texture", 2D) = "white" {}
         _LookUpTex("LUT", 2D) = "white" {}
+        _InverseACES("Inverse ACES", Float) = 1.0
         
         [Toggle] __DEBUG_NORMAL ("[Debug] normal", float) = 0.0
     }
@@ -33,7 +34,39 @@ Shader "Opabinia/OpaToon"
 
             CBUFFER_START(UnityPerMaterial)
                 float4 _MainTex_ST;
+                float _InverseACES;
             CBUFFER_END
+
+            float RRTAndODTFit(float x)
+            {
+                float a = 2.51;
+                float b = 0.03;
+                float c = 2.43;
+                float d = 0.59;
+                float e = 0.14;
+                return saturate((x * (a * x + b)) / (x * (c * x + d) + e));
+            }
+
+            float InverseACES(float rowValue)
+            {
+                float result = rowValue;
+                for (int i = 0; i < 5; ++i)
+                {
+                    float fx = RRTAndODTFit(result) - rowValue;
+                    float dfdx = (RRTAndODTFit(result + 0.01) - RRTAndODTFit(result - 0.01)) / 0.02;
+
+                    result -= fx / max(dfdx, 1e-6);
+                }
+                return result;
+            }
+
+            float3 InverseACES(float3 rowValue)
+            {
+                rowValue.x = InverseACES(rowValue.x);
+                rowValue.y = InverseACES(rowValue.y);
+                rowValue.z = InverseACES(rowValue.z);
+                return rowValue;
+            }
             
             struct Attributes
             {
@@ -75,6 +108,8 @@ Shader "Opabinia/OpaToon"
                 #ifdef __DEBUG_NORMAL_ON
                 return half4(IN.normalWS,1.0f);
                 #endif
+
+                mainTexColor.rgb = lerp(mainTexColor.rgb, InverseACES(mainTexColor.rgb), _InverseACES);
                 
                 return mainTexColor;
             }
