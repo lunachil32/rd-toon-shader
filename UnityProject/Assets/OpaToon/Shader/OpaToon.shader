@@ -3,6 +3,7 @@ Shader "Opabinia/OpaToon"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _LookUpTex("LUT", 2D) = "white" {}
         
         [Toggle] __DEBUG_NORMAL ("[Debug] normal", float) = 0.0
     }
@@ -26,6 +27,9 @@ Shader "Opabinia/OpaToon"
 
             TEXTURE2D(_MainTex);
             SAMPLER(sampler_MainTex);
+
+            TEXTURE2D(_LookUpTex);
+            SAMPLER(sampler_LookUpTex);
 
             CBUFFER_START(UnityPerMaterial)
                 float4 _MainTex_ST;
@@ -64,7 +68,9 @@ Shader "Opabinia/OpaToon"
                 Light mainLight = GetMainLight();
                 float diffuse = dot(IN.normalWS, mainLight.direction);
                 float halfLambert = diffuse * 0.5 + 0.5;
-                mainTexColor *= halfLambert;
+                
+                half4 lookUpTexColor = SAMPLE_TEXTURE2D(_LookUpTex, sampler_LookUpTex, half2(halfLambert, 0.0f));
+                mainTexColor = lerp(mainTexColor * lookUpTexColor, mainTexColor, saturate(diffuse));
 
                 #ifdef __DEBUG_NORMAL_ON
                 return half4(IN.normalWS,1.0f);
