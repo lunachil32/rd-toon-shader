@@ -28,5 +28,20 @@ Shader "Opabinia/OpaToon"
             
             ENDHLSL
         }
+
+        Pass
+        {
+            Name "ShadowCaster"
+            Tags { "LightMode" = "ShadowCaster" }
+            
+            HLSLPROGRAM
+            
+            #include "Pass/Forward.hlsl"
+            
+            #pragma vertex vert
+            #pragma fragment frag
+
+            ENDHLSL
+        }
     }
 }
