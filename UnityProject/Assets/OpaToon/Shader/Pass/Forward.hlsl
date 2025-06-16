@@ -9,11 +9,17 @@
 Varyings vert(Attributes IN)
 {
     Varyings OUT;
-    VertexPositionInputs positionInputs = GetVertexPositionInputs(IN.positionOS);
-    OUT.positionCS = positionInputs.positionCS;
     VertexNormalInputs normalInputs = GetVertexNormalInputs(IN.normal, IN.tangent);
     OUT.normalWS = normalInputs.normalWS;
+    
+    #ifdef _OUTLINE_ON
+        IN.positionOS += float4(IN.normal * 0.01, 1.0f);
+    #endif
+    
+    VertexPositionInputs positionInputs = GetVertexPositionInputs(IN.positionOS);
+    OUT.positionCS = positionInputs.positionCS;
     OUT.texcoord0 = TRANSFORM_TEX(IN.texcoord0, _MainTex);
+    
     return OUT;
 }
             
@@ -33,6 +39,10 @@ half4 frag(Varyings IN) : SV_Target
     #endif
 
     mainTexColor.rgb = lerp(mainTexColor.rgb, InverseACES(mainTexColor.rgb), _InverseACES);
+
+    #ifdef _OUTLINE_ON
+        return mainTexColor * 0.1h;
+    #endif
                 
     return mainTexColor;
 }

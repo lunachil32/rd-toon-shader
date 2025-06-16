@@ -11,6 +11,25 @@ Shader "Opabinia/OpaToon"
     SubShader
     {
         Tags { "RenderType" = "Opaque" "RenderPipeline" = "UniversalPipeline" }
+        
+        Pass
+        {
+            Name "Outline"
+            CULL FRONT
+            
+            HLSLPROGRAM
+            
+            #pragma shader_feature_local _ __DEBUG_NORMAL_ON
+
+            #define _OUTLINE_ON
+
+            #include "Pass/Forward.hlsl"
+            
+            #pragma vertex vert
+            #pragma fragment frag
+            
+            ENDHLSL
+        }
 
         Pass
         {
