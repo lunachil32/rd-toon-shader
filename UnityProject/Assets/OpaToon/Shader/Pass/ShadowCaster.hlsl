@@ -15,8 +15,10 @@ struct ShadowCasterVaryings
 
 ShadowCasterVaryings vert_shadowCaster(ShadowCasterAttributes IN)
 {
+    ShadowCasterVaryings OUT;
     VertexPositionInputs positionInputs = GetVertexPositionInputs(IN.positionOS);
     OUT.positionCS = positionInputs.positionCS;
+    return OUT;
 }
 
 half4 frag_shadowCaster(ShadowCasterVaryings IN) : SV_Target
