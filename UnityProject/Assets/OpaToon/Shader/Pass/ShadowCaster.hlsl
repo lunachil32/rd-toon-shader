@@ -1,6 +1,8 @@
 ﻿#ifndef OPATOON_PASS_SHADOW_CASTER_INCLUDED
 #define OPATOON_PASS_SHADOW_CASTER_INCLUDED
 
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+
 struct ShadowCasterAttributes
 {
     float4 positionOS   : POSITION;
