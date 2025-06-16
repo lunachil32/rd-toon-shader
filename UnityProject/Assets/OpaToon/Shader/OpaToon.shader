@@ -36,10 +36,10 @@ Shader "Opabinia/OpaToon"
             
             HLSLPROGRAM
             
-            #include "Pass/Forward.hlsl"
+            #include "Pass/ShadowCaster.hlsl"
             
-            #pragma vertex vert
-            #pragma fragment frag
+            #pragma vertex vert_shadowCaster
+            #pragma fragment frag_shadowCaster
 
             ENDHLSL
         }
