@@ -13,7 +13,8 @@ Varyings vert(Attributes IN)
     OUT.normalWS = normalInputs.normalWS;
     
     #ifdef _OUTLINE_ON
-        IN.positionOS += float4(IN.normal * 0.01, 1.0f);
+        half4 outlineMask = SAMPLE_TEXTURE2D_LOD(_OutlineMaskTex, sampler_OutlineMaskTex, IN.texcoord0, 0);
+        IN.positionOS += float4(IN.normal * 0.01 * outlineMask.r, 1.0f);
     #endif
     
     VertexPositionInputs positionInputs = GetVertexPositionInputs(IN.positionOS);
@@ -41,7 +42,7 @@ half4 frag(Varyings IN) : SV_Target
     mainTexColor.rgb = lerp(mainTexColor.rgb, InverseACES(mainTexColor.rgb), _InverseACES);
 
     #ifdef _OUTLINE_ON
-        return mainTexColor * 0.1h;
+        return half4(0,0,0,1);
     #endif
                 
     return mainTexColor;

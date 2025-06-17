@@ -9,6 +9,9 @@ SAMPLER(sampler_MainTex);
 TEXTURE2D(_LookUpTex);
 SAMPLER(sampler_LookUpTex);
 
+TEXTURE2D(_OutlineMaskTex);
+SAMPLER(sampler_OutlineMaskTex);
+
 CBUFFER_START(UnityPerMaterial)
     float4 _MainTex_ST;
 float _InverseACES;

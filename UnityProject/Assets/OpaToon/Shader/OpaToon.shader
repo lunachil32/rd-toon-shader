@@ -6,6 +6,7 @@ Shader "Opabinia/OpaToon"
         _LookUpTex("LUT", 2D) = "white" {}
         _InverseACES("Inverse ACES", Float) = 1.0
         
+        _OutlineMaskTex("Outline Mask Texture", 2D) = "white" {}
         [Toggle] __DEBUG_NORMAL ("[Debug] normal", float) = 0.0
     }
     SubShader
