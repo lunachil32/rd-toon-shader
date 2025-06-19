@@ -9,6 +9,9 @@ SAMPLER(sampler_MainTex);
 TEXTURE2D(_LookUpTex);
 SAMPLER(sampler_LookUpTex);
 
+TEXTURE2D(_NormalTex);
+SAMPLER(sampler_NormalTex);
+
 TEXTURE2D(_OutlineMaskTex);
 SAMPLER(sampler_OutlineMaskTex);
 
