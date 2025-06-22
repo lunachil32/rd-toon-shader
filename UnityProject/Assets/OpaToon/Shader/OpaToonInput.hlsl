@@ -33,6 +33,9 @@ struct Varyings
     float4 positionCS  : SV_POSITION;
     float2 texcoord0    : TEXCOORD0;
     float3 normalWS     : TEXCOORD1;
+    float3 tangentWS    : TEXCOORD2;
+    float3 bitangentWS  : TEXCOORD3;
+    
 };
 
 #endif
