@@ -9,6 +9,7 @@ Shader "Opabinia/OpaToon"
         
         _OutlineMaskTex("Outline Mask Texture", 2D) = "white" {}
         [Toggle] __DEBUG_NORMAL ("[Debug] normal", float) = 0.0
+        [Toggle] __DEBUG_TANGENT ("[Debug] tangent", float) = 0.0
     }
     SubShader
     {
@@ -22,6 +23,7 @@ Shader "Opabinia/OpaToon"
             HLSLPROGRAM
             
             #pragma shader_feature_local _ __DEBUG_NORMAL_ON
+            #pragma shader_feature_local _ __DEBUG_TANGENT_ON
 
             #define _OUTLINE_ON
 
@@ -41,6 +43,7 @@ Shader "Opabinia/OpaToon"
             HLSLPROGRAM
             
             #pragma shader_feature_local _ __DEBUG_NORMAL_ON
+            #pragma shader_feature_local _ __DEBUG_TANGENT_ON
 
             #include "Pass/Forward.hlsl"
             

@@ -46,6 +46,10 @@ half4 frag(Varyings IN) : SV_Target
     return half4(normalWS,1.0f);
     #endif
 
+    #ifdef __DEBUG_TANGENT_ON
+    return half4(IN.tangentWS,1.0f);
+    #endif
+
     mainTexColor.rgb = lerp(mainTexColor.rgb, InverseACES(mainTexColor.rgb), _InverseACES);
 
     #ifdef _OUTLINE_ON
