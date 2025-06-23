@@ -9,10 +9,9 @@
 Varyings vert(Attributes IN)
 {
     Varyings OUT;
-    VertexNormalInputs normalInputs = GetVertexNormalInputs(IN.normal, IN.tangent);
-    OUT.normalWS = normalize(normalInputs.normalWS);
-    OUT.tangentWS = normalize(normalInputs.tangentWS);
-    OUT.bitangentWS = normalize(normalInputs.bitangentWS);
+    
+    OUT.normalOS = IN.normal;
+    OUT.tangentOS = IN.tangent;
     
     #ifdef _OUTLINE_ON
         half4 outlineMask = SAMPLE_TEXTURE2D_LOD(_OutlineMaskTex, sampler_OutlineMaskTex, IN.texcoord0, 0);
@@ -28,7 +27,8 @@ Varyings vert(Attributes IN)
             
 half4 frag(Varyings IN) : SV_Target
 {
-    float3x3 TBN = float3x3(IN.tangentWS, IN.bitangentWS, IN.normalWS);
+    VertexNormalInputs normalInputs = GetVertexNormalInputs(IN.normalOS, IN.tangentOS);
+    float3x3 TBN = float3x3(normalInputs.tangentWS, normalInputs.bitangentWS, normalInputs.normalWS);
     float4 normalTexColor = SAMPLE_TEXTURE2D(_NormalTex, sampler_NormalTex, IN.texcoord0);
     float3 normalTS = UnpackNormal(normalTexColor);
     float3 normalWS = normalize(mul(normalTS, TBN));
@@ -39,8 +39,8 @@ half4 frag(Varyings IN) : SV_Target
     float diffuse = dot(normalWS, mainLight.direction);
     float halfLambert = diffuse * 0.5 + 0.5;
                 
-    half4 lookUpTexColor = SAMPLE_TEXTURE2D(_LookUpTex, sampler_LookUpTex, half2(halfLambert, 0.0f));
-    mainTexColor = lerp(mainTexColor * lookUpTexColor, mainTexColor, saturate(diffuse));
+    half4 lookUpTexColor = SAMPLE_TEXTURE2D(_LookUpTex, sampler_LookUpTex, half2(diffuse, 0.0f));
+    mainTexColor = lerp(mainTexColor * lookUpTexColor, mainTexColor, halfLambert);
 
     #ifdef __DEBUG_NORMAL_ON
     return half4(normalWS,1.0f);
