@@ -7,7 +7,10 @@ Shader "Opabinia/OpaToon"
         _NormalTex("Normal", 2D) = "bump" {}
         _InverseACES("Inverse ACES", Float) = 1.0
         
+        [Header(Outline)]
         _OutlineMaskTex("Outline Mask Texture", 2D) = "white" {}
+        
+        [Header(Debug)]
         [Toggle] __DEBUG_NORMAL ("[Debug] normal", float) = 0.0
         [Toggle] __DEBUG_TANGENT ("[Debug] tangent", float) = 0.0
     }
