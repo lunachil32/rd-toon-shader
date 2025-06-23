@@ -31,6 +31,7 @@ half4 frag(Varyings IN) : SV_Target
     float3x3 TBN = float3x3(normalInputs.tangentWS, normalInputs.bitangentWS, normalInputs.normalWS);
     float4 normalTexColor = SAMPLE_TEXTURE2D(_NormalTex, sampler_NormalTex, IN.texcoord0);
     float3 normalTS = UnpackNormal(normalTexColor);
+    normalTS = lerp(float3(0, 0, 1), normalTS, _NormalTexFactor);
     float3 normalWS = normalize(mul(normalTS, TBN));
     
     half4 mainTexColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.texcoord0);

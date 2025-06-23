@@ -17,6 +17,7 @@ SAMPLER(sampler_OutlineMaskTex);
 
 CBUFFER_START(UnityPerMaterial)
     float4 _MainTex_ST;
+    float _NormalTexFactor;
     float _InverseACES;
     float _OutlineOffsetOS;
 CBUFFER_END
