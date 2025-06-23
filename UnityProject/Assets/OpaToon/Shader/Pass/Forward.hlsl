@@ -16,7 +16,7 @@ Varyings vert(Attributes IN)
     
     #ifdef _OUTLINE_ON
         half4 outlineMask = SAMPLE_TEXTURE2D_LOD(_OutlineMaskTex, sampler_OutlineMaskTex, IN.texcoord0, 0);
-        IN.positionOS += float4(IN.normal * 0.01 * outlineMask.r, 1.0f);
+        IN.positionOS += float4(IN.normal * 0.01 * _OutlineOffsetOS * outlineMask.r, 1.0f);
     #endif
     
     VertexPositionInputs positionInputs = GetVertexPositionInputs(IN.positionOS);

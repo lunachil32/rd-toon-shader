@@ -9,6 +9,7 @@ Shader "Opabinia/OpaToon"
         
         [Header(Outline)]
         _OutlineMaskTex("Outline Mask Texture", 2D) = "white" {}
+        _OutlineOffsetOS("Outline Offset In object space Z axis", float) = 1.0
         
         [Header(Debug)]
         [Toggle] __DEBUG_NORMAL ("[Debug] normal", float) = 0.0
