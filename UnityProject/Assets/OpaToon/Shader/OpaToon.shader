@@ -33,12 +33,10 @@ Shader "Opabinia/OpaToon"
             #pragma shader_feature_local _ __DEBUG_TANGENT_ON
             #pragma shader_feature_local _ __DEBUG_VTXCOLOR_ON
 
-            #define _OUTLINE_ON
-
-            #include "Pass/Forward.hlsl"
+            #include "Pass/Outline.hlsl"
             
-            #pragma vertex vert
-            #pragma fragment frag
+            #pragma vertex vert_outline
+            #pragma fragment frag_outline
             
             ENDHLSL
         }
