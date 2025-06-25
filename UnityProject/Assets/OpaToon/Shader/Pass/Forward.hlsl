@@ -57,7 +57,8 @@ half4 frag(Varyings IN) : SV_Target
     float halfLambert = diffuse * 0.5 + 0.5;
                 
     half4 lookUpTexColor = SAMPLE_TEXTURE2D(_LookUpTex, sampler_LookUpTex, half2(diffuse, 0.0f));
-    mainTexColor = lerp(mainTexColor * lookUpTexColor, mainTexColor, halfLambert);
+    float4 occlusionTexColor = SAMPLE_TEXTURE2D(_OcclusionTex, sampler_OcclusionTex, IN.texcoord0);
+    mainTexColor = lerp(mainTexColor * lookUpTexColor, mainTexColor, min(halfLambert, occlusionTexColor.r));
 
     #ifdef __DEBUG_NORMAL_ON
         return half4(normalWS,1.0f);

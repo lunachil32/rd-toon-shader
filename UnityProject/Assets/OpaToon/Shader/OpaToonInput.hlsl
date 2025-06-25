@@ -12,6 +12,10 @@ SAMPLER(sampler_LookUpTex);
 TEXTURE2D(_NormalTex);
 SAMPLER(sampler_NormalTex);
 
+TEXTURE2D(_OcclusionTex);
+SAMPLER(sampler_OcclusionTex);
+
+// Outline
 TEXTURE2D(_OutlineMaskTex);
 SAMPLER(sampler_OutlineMaskTex);
 
