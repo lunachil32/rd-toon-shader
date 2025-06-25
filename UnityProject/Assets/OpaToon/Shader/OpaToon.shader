@@ -15,6 +15,7 @@ Shader "Opabinia/OpaToon"
         [Header(Debug)]
         [Toggle] __DEBUG_NORMAL ("[Debug] normal", float) = 0.0
         [Toggle] __DEBUG_TANGENT ("[Debug] tangent", float) = 0.0
+        [Toggle] __DEBUG_VTXCOLOR ("[Debug] color", float) = 0.0
     }
     SubShader
     {
@@ -29,6 +30,7 @@ Shader "Opabinia/OpaToon"
             
             #pragma shader_feature_local _ __DEBUG_NORMAL_ON
             #pragma shader_feature_local _ __DEBUG_TANGENT_ON
+            #pragma shader_feature_local _ __DEBUG_VTXCOLOR_ON
 
             #define _OUTLINE_ON
 
@@ -49,6 +51,7 @@ Shader "Opabinia/OpaToon"
             
             #pragma shader_feature_local _ __DEBUG_NORMAL_ON
             #pragma shader_feature_local _ __DEBUG_TANGENT_ON
+            #pragma shader_feature_local _ __DEBUG_VTXCOLOR_ON
 
             #include "Pass/Forward.hlsl"
             

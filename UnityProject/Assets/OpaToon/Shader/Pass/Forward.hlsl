@@ -9,6 +9,8 @@
 Varyings vert(Attributes IN)
 {
     Varyings OUT;
+
+    OUT.color = IN.color;
     
     OUT.normalOS = IN.normal;
     OUT.tangentOS = IN.tangent;
@@ -20,6 +22,7 @@ Varyings vert(Attributes IN)
     
     VertexPositionInputs positionInputs = GetVertexPositionInputs(IN.positionOS);
     OUT.positionCS = positionInputs.positionCS;
+    
     OUT.texcoord0 = TRANSFORM_TEX(IN.texcoord0, _MainTex);
     
     return OUT;
@@ -44,13 +47,17 @@ half4 frag(Varyings IN) : SV_Target
     mainTexColor = lerp(mainTexColor * lookUpTexColor, mainTexColor, halfLambert);
 
     #ifdef __DEBUG_NORMAL_ON
-    return half4(normalWS,1.0f);
+        return half4(normalWS,1.0f);
     #endif
 
     #ifdef __DEBUG_TANGENT_ON
-    return half4(IN.tangentWS,1.0f);
+        return half4(IN.tangentWS,1.0f);
     #endif
 
+    #ifdef __DEBUG_VTXCOLOR_ON
+        return half4(IN.color);
+    #endif
+    
     mainTexColor.rgb = lerp(mainTexColor.rgb, InverseACES(mainTexColor.rgb), _InverseACES);
 
     #ifdef _OUTLINE_ON
