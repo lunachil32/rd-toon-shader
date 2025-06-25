@@ -20,6 +20,7 @@ CBUFFER_START(UnityPerMaterial)
     float _NormalTexFactor;
     float _InverseACES;
     float _OutlineOffsetOS;
+    float _OutlineOffsetVS;
 CBUFFER_END
             
 struct Attributes

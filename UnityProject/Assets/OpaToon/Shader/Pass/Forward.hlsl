@@ -14,14 +14,20 @@ Varyings vert(Attributes IN)
     
     OUT.normalOS = IN.normal;
     OUT.tangentOS = IN.tangent;
-    
+
     #ifdef _OUTLINE_ON
         half4 outlineMask = SAMPLE_TEXTURE2D_LOD(_OutlineMaskTex, sampler_OutlineMaskTex, IN.texcoord0, 0);
         IN.positionOS += float4(IN.normal * 0.01 * _OutlineOffsetOS * outlineMask.r, 1.0f);
+
+        VertexPositionInputs positionInputs = GetVertexPositionInputs(IN.positionOS);
+        float3 normalWS = TransformObjectToWorldNormal(IN.normal);
+        float3 normalVS = normalize(TransformWorldToViewDir(normalWS));
+        float4 outlineOffset = float4(normalVS * outlineMask.r, 0.0f) * _OutlineOffsetVS * 0.01f * abs(positionInputs.positionVS.z);
+        OUT.positionCS = TransformWViewToHClip(positionInputs.positionVS + outlineOffset);
+    #else
+        VertexPositionInputs positionInputs = GetVertexPositionInputs(IN.positionOS);
+        OUT.positionCS = positionInputs.positionCS;
     #endif
-    
-    VertexPositionInputs positionInputs = GetVertexPositionInputs(IN.positionOS);
-    OUT.positionCS = positionInputs.positionCS;
     
     OUT.texcoord0 = TRANSFORM_TEX(IN.texcoord0, _MainTex);
     
