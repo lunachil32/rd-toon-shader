@@ -35,7 +35,7 @@ Varyings vert_outline(Attributes IN)
             
 half4 frag_outline(Varyings IN) : SV_Target
 {
-    return half4(0,0,0,1);
+    return _OutlineColor;
 }
 
 #endif

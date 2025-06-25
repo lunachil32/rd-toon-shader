@@ -19,6 +19,9 @@ CBUFFER_START(UnityPerMaterial)
     float4 _MainTex_ST;
     float _NormalTexFactor;
     float _InverseACES;
+
+// Outline
+    half4 _OutlineColor;
     float _OutlineOffsetOS;
     float _OutlineOffsetVS;
 CBUFFER_END

@@ -10,6 +10,7 @@ Shader "Opabinia/OpaToon"
         
         [Header(Outline)]
         _OutlineMaskTex("Outline Mask Texture", 2D) = "white" {}
+        _OutlineColor("Outline Color", color) = (0,0,0,1)
         _OutlineOffsetOS("Outline Offset In object space Z axis", float) = 1.0
         _OutlineOffsetVS("Outline Offset In view space", float) = 1.0
         
