@@ -22,6 +22,7 @@ SAMPLER(sampler_OutlineMaskTex);
 CBUFFER_START(UnityPerMaterial)
     float4 _MainTex_ST;
     float _NormalTexFactor;
+    float _OcclusionTexPowFactor;
     float _InverseACES;
 
 // Outline

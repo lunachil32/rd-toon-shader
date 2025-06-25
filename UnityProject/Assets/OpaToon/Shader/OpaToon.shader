@@ -7,6 +7,7 @@ Shader "Opabinia/OpaToon"
         _NormalTex("Normal", 2D) = "bump" {}
         _NormalTexFactor("Normal Tex Factor", float) = 1.0
         _OcclusionTex("Occlusion", 2D) = "white"
+        _OcclusionTexPowFactor("Occlusion Tex Factor(POW)", float) = 1.0
         _InverseACES("Inverse ACES", Float) = 1.0
         
         [Header(Outline)]
