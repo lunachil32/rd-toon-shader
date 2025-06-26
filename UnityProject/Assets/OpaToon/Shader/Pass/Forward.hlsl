@@ -20,8 +20,9 @@ struct Varyings
     float4 positionCS   : SV_POSITION;
     float4 color        : COLOR;
     float2 texcoord0    : TEXCOORD0;
-    float3 normalOS     : TEXCOORD1;
-    float4 tangentOS    : TEXCOORD2;
+    float3 positionWS   : TEXCOORD2;
+    float3 normalOS     : TEXCOORD3;
+    float4 tangentOS    : TEXCOORD4;
 };
 
 Varyings vert(Attributes IN)
@@ -34,6 +35,7 @@ Varyings vert(Attributes IN)
     OUT.tangentOS = IN.tangent;
     
     VertexPositionInputs positionInputs = GetVertexPositionInputs(IN.positionOS);
+    OUT.positionWS = positionInputs.positionWS;
     OUT.positionCS = positionInputs.positionCS;
     
     OUT.texcoord0 = TRANSFORM_TEX(IN.texcoord0, _MainTex);
@@ -60,6 +62,17 @@ half4 frag(Varyings IN) : SV_Target
     float occlusion = SAMPLE_TEXTURE2D(_OcclusionTex, sampler_OcclusionTex, IN.texcoord0).r;
     occlusion = pow(occlusion, _OcclusionTexPowFactor);
     mainTexColor = lerp(mainTexColor * lookUpTexColor, mainTexColor, min(halfLambert, occlusion));
+
+    float3 viewDirWS = normalize(_WorldSpaceCameraPos - IN.positionWS);
+    float3 lightDir = normalize(mainLight.direction);
+    float3 reflectDir = reflect(-lightDir, normalWS);
+    float specular = pow(saturate(dot(viewDirWS, reflectDir)), 6.0f);
+
+    #ifdef __DEBUG_SPECULAR_ON
+    return half4(specular,specular,specular,1.0f);
+    #endif
+
+    mainTexColor = lerp(mainTexColor, half4(1.0f,1.0f,1.0f,1.0f), specular);
 
     #ifdef __DEBUG_NORMAL_ON
         return half4(normalWS,1.0f);
